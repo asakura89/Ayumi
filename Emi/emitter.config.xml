@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <events>
+    <event name="name.of.the.event" onlyOnce="true" type="Event.Container.Namespace.TypeName, AssemblyName" method="OnEventHandled" />
+    <event name="name.of.the.second.event" type="Event.Container.Namespace.AnotherTypeName, OtherAssemblyName" method="OnSecondEventHandled" />
+  </events>
+</configuration>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <pipelines name="pipe:AppStart" contextType="PipelineContext.Container.Namespace.TypeName, AssemblyName">
+        <action type="Pipeline.Container.Namespace.TypeName, AssemblyName" method="InitializeSession" />
+        <action type="Pipeline.Container.Namespace.AnotherTypeName, OtherAssemblyName" method="InitializeContext" />
+    </pipelines>
+    <pipelines name="pipe:AppHandleRequest" contextType="PipelineContext.Container.Namespace.TypeName, AssemblyName">
+        <action type="Pipeline.Container.Namespace.TypeName, AssemblyName" method="VerifyAuthentication" />
+        <action type="Pipeline.Container.Namespace.AnotherTypeName, OtherAssemblyName" method="VerifyAuthorization" />
+    </pipelines>
+</configuration>
