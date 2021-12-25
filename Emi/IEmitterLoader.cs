@@ -1,5 +1,5 @@
 namespace Emi;
 
 public interface IEmitterLoader {
-    Emitter Load();
+    IEmitter Load();
 }

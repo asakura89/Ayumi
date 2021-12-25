@@ -5,7 +5,7 @@ namespace Emi;
 
 public class XmlConfigEmitterLoader : IEmitterLoader {
     readonly String configPath;
-    readonly Emitter globalEmitter;
+    readonly IEmitter globalEmitter;
     readonly ITypeAndAssemblyParser typeNAsmParser;
 
     public XmlConfigEmitterLoader(ITypeAndAssemblyParser typeNAsmParser) : this(typeNAsmParser, $"{AppDomain.CurrentDomain.BaseDirectory}\\emitter.config.xml") { }
@@ -16,7 +16,7 @@ public class XmlConfigEmitterLoader : IEmitterLoader {
         globalEmitter = new Emitter();
     }
 
-    public Emitter Load() {
+    public IEmitter Load() {
         IEnumerable<XmlEventDefinition> events = XmlEventDefinitionLoader.Load(configPath);
         foreach (XmlEventDefinition definition in events) {
             Type type = typeNAsmParser.GetType(new TypeAndAssembly(definition.Type, definition.Assembly));

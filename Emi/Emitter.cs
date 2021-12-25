@@ -1,6 +1,6 @@
 namespace Emi;
 
-public class Emitter {
+public class Emitter : IEmitter {
     readonly Object eLock = new Object();
     readonly Dictionary<String, IList<Action<EmitterEventArgs>>> e = new Dictionary<String, IList<Action<EmitterEventArgs>>>();
 
@@ -11,7 +11,7 @@ public class Emitter {
         }
     }
 
-    public Emitter On(String name, Action<EmitterEventArgs> callback) {
+    public IEmitter On(String name, Action<EmitterEventArgs> callback) {
         if (String.IsNullOrEmpty(name))
             throw new EmitterException("Name must be specified.");
 
@@ -28,9 +28,9 @@ public class Emitter {
         return this;
     }
 
-    public Emitter Off(String name) => Off(name, null);
+    public IEmitter Off(String name) => Off(name, null);
 
-    public Emitter Off(String name, Action<EmitterEventArgs> callback) {
+    public IEmitter Off(String name, Action<EmitterEventArgs> callback) {
         if (String.IsNullOrEmpty(name))
             throw new EmitterException("Name must be specified.");
 
@@ -57,14 +57,14 @@ public class Emitter {
         return this;
     }
 
-    public Emitter Once(String name, Action<EmitterEventArgs> callback) {
+    public IEmitter Once(String name, Action<EmitterEventArgs> callback) {
         if (String.IsNullOrEmpty(name))
             throw new EmitterException("Name must be specified.");
 
         if (callback == null)
             throw new EmitterException("Invalid callback.");
 
-        Emitter self = this;
+        IEmitter self = this;
         Action<EmitterEventArgs> wrapper = null;
         wrapper = arg => {
             self.Off(name, wrapper);
@@ -74,7 +74,7 @@ public class Emitter {
         return self.On(name, wrapper);
     }
 
-    public Emitter Emit(String name, EmitterEventArgs arg) {
+    public IEmitter Emit(String name, EmitterEventArgs arg) {
         if (String.IsNullOrEmpty(name))
             throw new EmitterException("Name must be specified.");
 
