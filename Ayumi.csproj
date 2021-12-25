@@ -8,6 +8,26 @@
     <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Version>1.0.2021.0024</Version>
+    <Authors>asakura89</Authors>
+    <Company></Company>
+    <Product>Ayumi</Product>
+    <PackageId>Ayumi</PackageId>
+    <AssemblyVersion>1.0.2021.0024</AssemblyVersion>
+    <FileVersion>1.0.2021.0024</FileVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Description></Description>
+    <Copyright>Copyright © 2021</Copyright>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageIconUrl></PackageIconUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <RepositoryType></RepositoryType>
+    <PackageTags></PackageTags>
+    <PackageReleaseNotes>Release</PackageReleaseNotes>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
