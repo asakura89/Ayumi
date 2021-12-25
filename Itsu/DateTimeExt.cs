@@ -3,7 +3,7 @@
 namespace Itsu;
 
 public static class DateTimeExt {
-    static String[] months = new[] {
+    static readonly String[] months = new[] {
             String.Empty,
             "Jan",
             "Feb",
@@ -19,7 +19,7 @@ public static class DateTimeExt {
             "Dec"
         };
 
-    static String[] fullmonths = new[] {
+    static readonly String[] fullmonths = new[] {
             String.Empty,
             "January",
             "February",
@@ -35,7 +35,7 @@ public static class DateTimeExt {
             "December"
         };
 
-    static String[] days = new[] {
+    static readonly String[] days = new[] {
             String.Empty,
             "Sunday",
             "Monday",

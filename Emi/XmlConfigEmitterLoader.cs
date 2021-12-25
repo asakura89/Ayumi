@@ -18,8 +18,7 @@ public class XmlConfigEmitterLoader : IEmitterLoader {
 
     public Emitter Load() {
         IEnumerable<XmlEventDefinition> events = XmlEventDefinitionLoader.Load(configPath);
-        foreach (XmlEventDefinition definition in events)
-        {
+        foreach (XmlEventDefinition definition in events) {
             Type type = typeNAsmParser.GetType(new TypeAndAssembly(definition.Type, definition.Assembly));
             Object instance = Activator.CreateInstance(type);
             MethodInfo methodInfo = instance
@@ -30,7 +29,7 @@ public class XmlConfigEmitterLoader : IEmitterLoader {
             if (methodInfo == null)
                 throw new EmitterException($"Method '{definition.Method}' was not found. Type '{definition.Type}', Assembly '{definition.Assembly}'.");
 
-            var eventDelegate = (Action<EmitterEventArgs>)Delegate.CreateDelegate(typeof(Action<EmitterEventArgs>), instance, methodInfo);
+            var eventDelegate = (Action<EmitterEventArgs>) Delegate.CreateDelegate(typeof(Action<EmitterEventArgs>), instance, methodInfo);
             if (definition.OnlyOnce)
                 globalEmitter.Once(definition.Name, eventDelegate);
             else

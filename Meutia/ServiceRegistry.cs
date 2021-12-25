@@ -48,9 +48,9 @@ public class ServiceRegistry : IServiceRegistry {
         return GetService(type);
     }
 
-    public I GetService<I>() => (I)GetService(typeof(I));
+    public I GetService<I>() => (I) GetService(typeof(I));
 
-    public I GetService<I>(String name) => (I)GetService(name);
+    public I GetService<I>(String name) => (I) GetService(name);
 
     public void RegisterService<A, I>() where I : A => types[typeof(A)] = () => GetInstance(typeof(I));
 

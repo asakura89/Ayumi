@@ -12,7 +12,5 @@ public class Creator<T> where T : class, new() {
         return this;
     }
 
-    public T Create() {
-        return t;
-    }
+    public T Create() => t;
 }

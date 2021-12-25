@@ -37,9 +37,9 @@ public class PipelineExecutor : IPipelineExecutor {
 
             if (methodInfo == null)
                 throw new PipelineException($"Method '{action.Method}' was not found. Type '{action.Type}', Assembly '{action.Assembly}'.");
-            
+
             methodInfo.Invoke(instance, new[] { context });
-            if (((PipelineContext)context).Cancelled)
+            if (((PipelineContext) context).Cancelled)
                 break;
         }
 

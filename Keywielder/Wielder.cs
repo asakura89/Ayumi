@@ -66,8 +66,7 @@ public class Wielder {
 
     Wielder AddRandom(Int32 valueLength, String[] charCombination) {
         var randomString = new StringBuilder();
-        for (Int32 i = 0; i < valueLength; i++)
-        {
+        for (Int32 i = 0; i < valueLength; i++) {
             Int32 randomIdx = (charCombination.Length - 1).Ryandomize();
             randomString.Append(charCombination[randomIdx]);
         }
@@ -157,8 +156,7 @@ public class Wielder {
     Wielder AddMonth(Int32 valueLength, IList<String> monthList) {
         String month = String.Empty;
         Int32 currentMonth = DateTime.Now.Month;
-        switch (valueLength)
-        {
+        switch (valueLength) {
             case 4:
                 month = monthList[currentMonth];
                 break;
@@ -199,8 +197,7 @@ public class Wielder {
     Wielder AddDay(Int32 valueLength, IList<String> dayList) {
         String day = String.Empty;
         Int32 currentDayOfWeek = Convert.ToInt32(DateTime.Now.DayOfWeek) + 1;
-        switch (valueLength)
-        {
+        switch (valueLength) {
             case 4:
                 day = dayList[currentDayOfWeek];
                 break;

@@ -15,11 +15,11 @@ public static class GridDataExt {
                 .ToList();
         }
 
-    return cleanupColumn
-        .GroupBy(prm => prm.Row)
-        .Select(grp => grp.Select(item => item))
-        .Where(grd => !grd.Aggregate(true, (p, n) => p && String.IsNullOrEmpty(n.CellValue)))
-        .SelectMany(grd => grd)
-        .ToList();
+        return cleanupColumn
+            .GroupBy(prm => prm.Row)
+            .Select(grp => grp.Select(item => item))
+            .Where(grd => !grd.Aggregate(true, (p, n) => p && String.IsNullOrEmpty(n.CellValue)))
+            .SelectMany(grd => grd)
+            .ToList();
     }
 }
