@@ -1,8 +1,11 @@
 using System.Reflection;
+using System.Runtime.Loader;
 
 namespace Reflx;
 
 public class AssemblyLoader : IAssemblyLoader {
+    readonly Object assemblyFileLock = new Object();
+
     public void LoadFromPath(String path) =>
         LoadFromPath(path, new[] { "*" });
 
@@ -38,22 +41,14 @@ public class AssemblyLoader : IAssemblyLoader {
             throw new FileNotFoundException(message);
         }
 
-        // https://stackoverflow.com/questions/9315716/side-effects-of-calling-assembly-load-multiple-times
-        foreach (String ns in goodNamespaces) {
-            try {
-                String file = Path.Combine(path, ns + ".dll");
-                var asmName = AssemblyName.GetAssemblyName(file);
-                Assembly asm = AppDomain
-                    .CurrentDomain
-                    .GetAssemblies()
-                    .FirstOrDefault(a => a.FullName == asmName.FullName);
+        String loadContextName = DynamicAssemblyLoadContext.GenerateNameByAssemblyPath(path);
+        AssemblyLoadContext loadContext = AssemblyLoadContext.All.FirstOrDefault(ctx => ctx.Name == loadContextName);
+        if (loadContext == null)
+            loadContext = new DynamicAssemblyLoadContext(path);
 
-                if (asm == null)
-                    Assembly.Load(File.ReadAllBytes(file));
-            }
-            catch {
-                //
-            }
+        foreach (String ns in goodNamespaces) {
+            String file = Path.Combine(path, ns + ".dll");
+            loadContext.LoadFromAssemblyPath(file);
         }
     }
 }
