@@ -1,4 +1,4 @@
-using System.Text;
+using System.Text.Json;
 
 namespace Scratch;
 
@@ -38,9 +38,11 @@ public abstract class RunnableBase {
         DisplayTitle(title);
 
         if (!(obj is String && String.IsNullOrEmpty(obj.ToString()))) {
-            // NOTE: find a way to serialize without depending on 3rd party
-            //Console.WriteLine(JsonConvert.SerializeObject(obj, Formatting.Indented));
-            Console.WriteLine();
+            Console.WriteLine(
+                JsonSerializer.Serialize(
+                    obj,
+                    typeof(Object),
+                    new JsonSerializerOptions { WriteIndented = true }));
         }
     }
 }
