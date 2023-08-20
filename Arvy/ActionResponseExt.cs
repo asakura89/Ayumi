@@ -11,7 +11,7 @@ public static class ActionResponseExt {
 
         var viewModel = new ActionResponseViewModel(ResponseType: splittedResult[0], Message: splittedResult[1]);
         if (!alwaysReturn && viewModel.ResponseType == ActionResponseViewModel.Error)
-            throw new InvalidOperationException(viewModel.Message);
+            throw new UnintendedBehaviorException(viewModel.Message);
 
         return viewModel;
     }

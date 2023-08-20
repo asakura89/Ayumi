@@ -2,6 +2,7 @@
 using System.Data.Common;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Exy;
 using Microsoft.Extensions.Configuration;
 using ConfigurationManager = AppSea.ConfigurationManager;
 
@@ -79,7 +80,7 @@ public class Database : IDatabase {
     void Open() {
         connection = Provider.CreateConnection();
         if (connection == null)
-            throw new InvalidOperationException("Connection creation from factory failed.");
+            throw new UnintendedBehaviorException("Connection creation from factory failed.");
 
         connection.ConnectionString = ConnectionString;
         connection.Open();
@@ -143,7 +144,7 @@ public class Database : IDatabase {
             String closureParam = param.Value.Replace("@", "");
             PropertyInfo foundProperty = properties.FirstOrDefault(p => p.Name == closureParam);
             if (foundProperty == null)
-                throw new InvalidOperationException($"Sql Param \"{closureParam}\" is defined but value isn't supplied.");
+                throw new UnintendedBehaviorException($"Sql Param \"{closureParam}\" is defined but value isn't supplied.");
         }
 
         return properties;
@@ -152,7 +153,7 @@ public class Database : IDatabase {
     DbDataAdapter BuildSelectDataAdapter(DbCommand builtSqlCommand) {
         DbDataAdapter builtDataAdapter = Provider.CreateDataAdapter();
         if (builtDataAdapter == null)
-            throw new InvalidOperationException("Data Adapter creation from factory failed.");
+            throw new UnintendedBehaviorException("Data Adapter creation from factory failed.");
 
         builtDataAdapter.SelectCommand = builtSqlCommand;
         return builtDataAdapter;

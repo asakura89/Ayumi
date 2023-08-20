@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Exy;
 
 namespace Reflx;
 
@@ -17,7 +18,7 @@ public class TypeAndAssemblyParser : ITypeAndAssemblyParser {
         String typeName = typeNameRgx.Match(source).Groups["TypeN"].Value;
         String asmName = typeNameRgx.Match(source).Groups["AsmN"].Value;
         if (String.IsNullOrEmpty(typeName) || String.IsNullOrEmpty(asmName))
-            throw new InvalidOperationException($"Wrong Type or Assembly. '{source}'.");
+            throw new UnintendedBehaviorException($"Wrong Type or Assembly. '{source}'.");
 
         return new TypeAndAssembly(typeName, asmName);
     }
@@ -32,7 +33,7 @@ public class TypeAndAssemblyParser : ITypeAndAssemblyParser {
             .SingleOrDefault(appDAsm => appDAsm.GetName().Name == typeAndAsm.Assembly);
 
         if (asm == null)
-            throw new InvalidOperationException($"Assembly '{typeAndAsm.Assembly}' was not found in the current AppDomain.");
+            throw new UnintendedBehaviorException($"Assembly '{typeAndAsm.Assembly}' was not found in the current AppDomain.");
 
         return GetType(typeAndAsm, asm);
     }
@@ -44,12 +45,13 @@ public class TypeAndAssemblyParser : ITypeAndAssemblyParser {
         if (asm == null)
             throw new ArgumentNullException(nameof(asm));
 
+        Func<Type, Boolean> wasTheHackishAssemblyNameMatch = asmType => asmType.FullName.Replace("+", ".") == typeAndAsm.Type;
         Type type = asm
             .GetTypes()
-            .FirstOrDefault(asmType => asmType.FullName.Replace("+", ".") == typeAndAsm.Type);
+            .FirstOrDefault(wasTheHackishAssemblyNameMatch);
 
         if (type == null)
-            throw new InvalidOperationException($"Type '{typeAndAsm.Type}' was not found. Assembly '{typeAndAsm.Assembly}'.");
+            throw new UnintendedBehaviorException($"Type '{typeAndAsm.Type}' was not found. Assembly '{typeAndAsm.Assembly}'.");
 
         return type;
     }

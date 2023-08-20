@@ -1,4 +1,6 @@
-﻿namespace KamenReader;
+﻿using AppSea;
+
+namespace KamenReader;
 
 public sealed class FixedLengthReader : IFileReader {
     public FileReaderResult Read(String fullFilepath, IList<FileReaderMap> maps, Boolean firstRowAreTitles = true) {
@@ -6,13 +8,13 @@ public sealed class FixedLengthReader : IFileReader {
             throw new ArgumentNullException(nameof(fullFilepath));
 
         if (!File.Exists(fullFilepath))
-            throw new InvalidOperationException("File's not found.");
+            throw new FileNotFoundException("File's not found.");
 
         if (maps == null)
             throw new ArgumentNullException(nameof(maps));
 
         if (!maps.Any())
-            throw new InvalidOperationException("File Reader Map must be supplied.");
+            throw new BadConfigurationException("File Reader Map must be supplied.");
 
         var result = new FileReaderResult();
         String[] allLines = File.ReadAllLines(fullFilepath);

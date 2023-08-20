@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using Exy;
 
 namespace Eqx;
 
@@ -26,11 +27,11 @@ public static class EqxLoader {
         }
 
         if (String.IsNullOrEmpty(rootDir) || !Directory.Exists(rootDir))
-            throw new InvalidOperationException("Invalid eqx file.");
+            throw new UnintendedBehaviorException("Invalid eqx file.");
 
         String eqxPath = Path.Combine(rootDir, combined ?? filename) + ".eqx";
         if (!File.Exists(eqxPath))
-            throw new InvalidOperationException("Invalid eqx file.");
+            throw new UnintendedBehaviorException("Invalid eqx file.");
 
         using var stream = new FileStream(eqxPath, FileMode.Open);
             using var streamR = new StreamReader(stream, Encoding.UTF8);

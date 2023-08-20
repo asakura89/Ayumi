@@ -1,5 +1,6 @@
 using System.Xml;
 using Eksmaru;
+using Exy;
 using Itsu;
 
 namespace Haru;
@@ -42,7 +43,7 @@ public class XmlStorage {
             docRoot = XmlExt.LoadFromPath(path);
             XmlNode storage = docRoot.SelectSingleNode("storage");
             if (storage == null)
-                throw new InvalidOperationException("xml file contains invalid storage tag.");
+                throw new UnintendedBehaviorException("xml file contains invalid storage tag.");
 
             if (storage.SelectSingleNode(appName) == null) {
                 XmlNode app = docRoot.CreateElement(appName, null);

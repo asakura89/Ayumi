@@ -1,3 +1,5 @@
+using Exy;
+
 namespace Arvy;
 
 public record ActionResponseViewModel(String ResponseType, String Message) {
@@ -10,7 +12,7 @@ public record ActionResponseViewModel(String ResponseType, String Message) {
 
     public String ToString(Boolean alwaysReturn) {
         if (!alwaysReturn && ResponseType == Error)
-            throw new InvalidOperationException(Message);
+            throw new UnintendedBehaviorException(Message);
 
         return ResponseType + "|" + Message;
     }
