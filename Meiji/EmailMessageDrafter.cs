@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Net.Mail;
 
 namespace Meiji;
 
 public class EmailMessageDrafter {
-    MailMessage message = new MailMessage();
+    readonly MailMessage message = new MailMessage();
 
-    public EmailMessageDrafter CreateDraft(String from, String to, String subject, String body) {
+    public EmailMessageDrafter CreateDraft(String from, String to, String subject, String body, Boolean useHtml = true) {
         message.From = new MailAddress(from);
         message.Subject = subject;
         message.Body = body;
-        message.IsBodyHtml = true;
+        message.IsBodyHtml = useHtml;
         message.To.Add(new MailAddress(to));
 
         return this;
