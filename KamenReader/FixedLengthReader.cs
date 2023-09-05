@@ -14,7 +14,7 @@ public sealed class FixedLengthReader : IFileReader {
             throw new ArgumentNullException(nameof(maps));
 
         if (!maps.Any())
-            throw new BadConfigurationException("File Reader Map must be supplied.");
+            throw new BadConfigurationException("File Reader Map");
 
         var result = new FileReaderResult();
         String[] allLines = File.ReadAllLines(fullFilepath);
