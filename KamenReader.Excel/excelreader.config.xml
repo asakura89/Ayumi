@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <!-- NOTE: only accepts tabular data, no pivot, no merged -->
+  <spreadsheet name="exl:payment" path="">
+    <worksheet index="" name="">
+      <column index="0" name="employeeno" type="string" process="true" allowEmpty="false" />
+      <column index="2" name="employeename" type="string" process="false" allowEmpty="false" />
+      <column index="3" name="paymentmode" type="string" process="true" allowEmpty="false" />
+      <column index="4" name="bankcode" type="string" process="true" allowEmpty="false" />
+    </worksheet>
+    <worksheet index="" name="">
+      <column index="0" name="employeeno" type="string" process="true" allowEmpty="false" />
+      <column index="2" name="employeename" type="string" process="false" allowEmpty="false" />
+      <column index="3" name="paymentmode" type="string" process="true" allowEmpty="false" />
+      <column index="4" name="bankcode" type="string" process="true" allowEmpty="false" />
+    </worksheet>
+  </spreadsheet>
+  <spreadsheet name="exl:payment2" path="">
+    <worksheet index="" name="">
+      <column index="0" name="employeeno" type="string" process="true" allowEmpty="false" />
+      <column index="2" name="employeename" type="string" process="false" allowEmpty="false" />
+      <column index="3" name="paymentmode" type="string" process="true" allowEmpty="false" />
+      <column index="4" name="bankcode" type="string" process="true" allowEmpty="false" />
+    </worksheet>
+    <worksheet index="" name="">
+      <column index="0" name="employeeno" type="string" process="true" allowEmpty="false" />
+      <column index="2" name="employeename" type="string" process="false" allowEmpty="false" />
+      <column index="3" name="paymentmode" type="string" process="true" allowEmpty="false" />
+      <column index="4" name="bankcode" type="string" process="true" allowEmpty="false" />
+    </worksheet>
+  </spreadsheet>
+</configuration>
