@@ -1,6 +1,7 @@
 ﻿using System.Xml;
 using AppSea;
 using Eksmaru;
+using Varya;
 
 namespace KamenReader.Excel;
 
@@ -105,8 +106,10 @@ public class XmlConfigExcelReader {
                 .FirstOrDefault(ssheet => ssheet.Name == spreadsheetName);
 
         IList<FileReaderResult> results = new List<FileReaderResult>();
-        foreach (XmlWorksheetDefinition wsheet in spreadsheet.Worksheets)
-            results.Add(new ExcelReader().Read(spreadsheet.Path, wsheet.Name));
+        foreach (XmlWorksheetDefinition wsheet in spreadsheet.Worksheets) {
+            String path = spreadsheet.Path.Resolve();
+            results.Add(new ExcelReader().Read(path, wsheet.Name));
+        }
 
         return results;
     }
