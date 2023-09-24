@@ -17,9 +17,9 @@ public sealed class ExcelReader { // : IFileReader {
             else
                 doc.SelectWorksheet(worksheetName);
 
-            var stats = doc.GetWorksheetStatistics();
-            for (int row = 1; row <= stats.EndRowIndex; row++) {
-                for (int col = 1; col <= stats.EndColumnIndex; col++) {
+            SLWorksheetStatistics stats = doc.GetWorksheetStatistics();
+            for (Int32 row = 1; row <= stats.EndRowIndex; row++) {
+                for (Int32 col = 1; col <= stats.EndColumnIndex; col++) {
                     String data = doc.GetCellValueAsString(row, col);
                     String cleaned = String.IsNullOrEmpty(data) ? data : data.Trim();
                     if (firstRowAreTitles && row == 1)
