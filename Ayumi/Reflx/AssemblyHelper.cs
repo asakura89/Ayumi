@@ -38,7 +38,14 @@ public class AssemblyHelper : IAssemblyHelper {
             .IsInheritedBy<TAncestor>);
     public IEnumerable<Type> GetTypes(IEnumerable<Assembly> assemblies) =>
        assemblies?
-           .SelectMany(asm => asm.GetTypes());
+           .SelectMany(asm => {
+                try {
+                    return asm.GetTypes();
+                }
+                catch {
+                    return Enumerable.Empty<Type>().ToArray();
+                }
+            }); // need to find out why we need to use try catch here because it loads Microsoft.WindowsAPICodePack.Shell.dll and cannot get the types
 
     public IEnumerable<Type> GetTypes(IEnumerable<Assembly> assemblies, Func<Type, Boolean> predicate) =>
         GetTypes(assemblies)
@@ -46,6 +53,13 @@ public class AssemblyHelper : IAssemblyHelper {
 
     public Type GetType(IEnumerable<Assembly> assemblies, Func<Type, Boolean> predicate) =>
         assemblies?
-            .SelectMany(asm => asm.GetTypes())
+            .SelectMany(asm => {
+                try {
+                    return asm.GetTypes();
+                }
+                catch {
+                    return Enumerable.Empty<Type>().ToArray();
+                }
+            })
             .FirstOrDefault(predicate);
 }

@@ -4,8 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <LangVersion>10</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <IsTrimmable>true</IsTrimmable>
+    <Nullable>disable</Nullable>
+    <IsTrimmable>false</IsTrimmable>
   </PropertyGroup>
 
   <PropertyGroup>
