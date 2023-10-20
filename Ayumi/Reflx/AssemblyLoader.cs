@@ -1,10 +1,8 @@
-using System.Reflection;
 using System.Runtime.Loader;
 
 namespace Reflx;
 
 public class AssemblyLoader : IAssemblyLoader {
-    readonly Object assemblyFileLock = new Object();
 
     public void LoadFromPath(String path) =>
         LoadFromPath(path, new[] { "*" });
@@ -44,7 +42,7 @@ public class AssemblyLoader : IAssemblyLoader {
         String loadContextName = DynamicAssemblyLoadContext.GenerateNameByAssemblyPath(path);
         AssemblyLoadContext loadContext = AssemblyLoadContext.All.FirstOrDefault(ctx => ctx.Name == loadContextName);
         if (loadContext == null)
-            loadContext = new DynamicAssemblyLoadContext(path);
+            loadContext = new DynamicAssemblyLoadContext(loadContextName, path);
 
         foreach (String ns in goodNamespaces) {
             String file = Path.Combine(path, ns + ".dll");

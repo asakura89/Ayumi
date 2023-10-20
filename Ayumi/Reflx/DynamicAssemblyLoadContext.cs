@@ -15,11 +15,25 @@ public class DynamicAssemblyLoadContext : AssemblyLoadContext {
     public static String GenerateNameByAssemblyPath(String asmPath) => new DirectoryInfo(asmPath).Name;
 
     protected override Assembly? Load(AssemblyName assemblyName) {
-        String assemblyPath = resolver.ResolveAssemblyToPath(assemblyName);
-        if (assemblyPath == null)
-            return null;
+        System.Diagnostics.Debug.WriteLine($"Context: {Name}, AssemblyName: {assemblyName}");
 
-        return LoadFromAssemblyPath(assemblyPath);
+        try {
+            // This is usually the plugin interface
+            Assembly defaultContextAssembly = AssemblyLoadContext.Default.LoadFromAssemblyName(assemblyName);
+            if (defaultContextAssembly != null)
+                return defaultContextAssembly;
+
+            System.Diagnostics.Debug.WriteLine($"DefaultContextAssembly is null {defaultContextAssembly != null}");
+        }
+        catch {
+            String assemblyPath = resolver.ResolveAssemblyToPath(assemblyName);
+            if (assemblyPath == null)
+                return null;
+
+            return LoadFromAssemblyPath(assemblyPath);
+        }
+
+        return null;
     }
 
     protected override IntPtr LoadUnmanagedDll(String unmanagedDllName) {
