@@ -1,5 +1,7 @@
-﻿using System.Globalization;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using Arvy;
+using Kacchun;
 
 namespace KamenReader.Excel;
 
@@ -10,11 +12,13 @@ public static class CellValueValidator {
         {"Decimal", ValidateDecimal},
         {"decimal", ValidateDecimal},
         {"DateTime", ValidateDatetime},
-        {"dateTime", ValidateDatetime},
+        {"datetime", ValidateDatetime},
+        {"LiteralTimeSpan", ValidateLiteralTimespan},
+        {"literaltimespan", ValidateLiteralTimespan},
         {"Boolean", ValidateBoolean},
         {"boolean", ValidateBoolean},
         {"ByPass", ByPassValidation},
-        {"byPass", ByPassValidation},
+        {"bypass", ByPassValidation},
         {"No", NoValidator},
         {"no", NoValidator}
     };
@@ -73,6 +77,57 @@ public static class CellValueValidator {
         }
 
         return GetSuccessMessage(name, data.Row, data.Column);
+    }
+
+    static ActionResponseViewModel ValidateLiteralTimespan(String name, GridData data, Boolean allowEmpty) {
+        String cellValue = data.CellValue;
+        if (!allowEmpty && String.IsNullOrEmpty(data.CellValue))
+            return GetInvalidFormatMessage(name, data.Row, data.Column);
+
+        String result = HandleLiteralTimeSpan(cellValue);
+        if (result == TimeSpanUtils.ZeroTimeSpan)
+            return GetInvalidFormatMessage(name, data.Row, data.Column);
+
+        TimeSpan tsOutValue;
+        Boolean tsResult = TimeSpan.TryParse(result, out tsOutValue);
+        if (!tsResult)
+            return GetInvalidFormatMessage(name, data.Row, data.Column);
+
+        return GetSuccessMessage(name, data.Row, data.Column);
+    }
+
+    static String HandleLiteralTimeSpan(String literal) {
+        String regex = @"(?<digit>\d{1,})(?<type>[Dd]|[Hh]|[Mm]|[Ss])";
+
+        Match varMatch = Regex.Match(literal, regex, RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Multiline);
+        if (varMatch.Success)
+            return HandleTimespan(varMatch);
+
+        return String.Empty;
+    }
+
+    static String HandleTimespan(Match match) {
+        String digit = match.Groups["digit"].Value;
+        String type = match.Groups["type"].Value;
+        if (String.IsNullOrEmpty(digit))
+            return String.Empty;
+
+        if (String.IsNullOrEmpty(type))
+            return String.Empty;
+
+        String duration = digit.PadLeft(2, '0');
+        switch (type) {
+            case "d":
+                return $"{duration}:00:00:00";
+            case "h":
+                return $"00:{duration}:00:00";
+            case "m":
+                return $"00:00:{duration}:00";
+            case "s":
+                return $"00:00:00:{duration}";
+            default:
+                return "00:00:00:00";
+        }
     }
 
     static ActionResponseViewModel ValidateBoolean(String name, GridData data, Boolean allowEmpty) {

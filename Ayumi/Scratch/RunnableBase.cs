@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace Scratch;
 
 public abstract class RunnableBase {
@@ -35,7 +37,12 @@ public abstract class RunnableBase {
     protected void Dbg(String title, Object obj) {
         DisplayTitle(title);
 
-        if (!(obj is String && String.IsNullOrEmpty(obj.ToString())))
-            Console.WriteLine(obj.AsIndentedJson());
+        if (!(obj is String && String.IsNullOrEmpty(obj.ToString()))) {
+            Console.WriteLine(
+                JsonSerializer.Serialize(
+                    obj,
+                    typeof(Object),
+                    new JsonSerializerOptions { WriteIndented = true }));
+        }
     }
 }
